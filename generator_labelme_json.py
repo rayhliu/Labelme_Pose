@@ -26,7 +26,11 @@ def run(visualize=False):
     op,opWrapper = IOP.init_openpose()
     
     files = glob.glob(os.path.join('.','images','*.jpg'))
+    count = 0
     for file in files:
+        count += 1
+        show_count = str(count).zfill(4)
+        print ("[{}] {}".format(show_count,file))
         fileName = os.path.basename(file)[:-4]
         relativePath = os.path.join('..','images',fileName+'.jpg')
         frame = cv2.imread(file)
@@ -70,8 +74,6 @@ def run(visualize=False):
         labelJson['imageData'] = None 
         labelJson['imageHeight'] = h
         
-               
-    
         saveLabelmePath = os.path.join('.','annotations',fileName+'.json')
         with open(saveLabelmePath , 'w') as outfile:
             json.dump(labelJson, outfile)
@@ -84,6 +86,7 @@ def run(visualize=False):
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
+    print ('Finish...')
 
 if __name__ == "__main__":
     run()
